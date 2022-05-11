@@ -1,0 +1,153 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="widdiv=device-widdiv, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Events - Aggie Rotaract Event Tracker </title>
+</head>
+
+<body>
+    <div class="text-center">
+        <br/>
+        <% if not @logged_in %>
+            <h3>
+                <%= google_sign_in_button "Sign in with my TAMU Google Account", proceed_to: login_url %>
+                <a href="<%= help_url %>" class="btn btn-outline-info"> Help </a>
+            </h3>
+            <% @view_all = true %>
+        <% else %>
+            <h4>
+                <%= @msg %>
+                <br>
+                <a href="<%= logout_url %>" class="btn btn-outline-danger"> Sign Out </a>
+                <a href="<%= edit_user_path(@user[:id]) %>" class="btn btn-outline-primary"> Edit Profile </a>
+                <a href="<%= user_path(@user[:id])%>" class="btn btn-outline-success"> My Profile </a>
+                <a href="<%= help_url %>" class="btn btn-outline-info"> Help </a>
+            </h4>
+        <% end %>
+
+        <% if @officer %>
+            <a href="<%= new_event_url %>" class="btn btn-outline-success"> Create Event </a>
+            <a href="<%= users_url %>" class="btn btn-outline-info"> User Dashboard </a>
+            <a href="<%= points_url %>" class="btn btn-outline-primary"> Add Points </a>
+        <% end %>
+        <br/>
+
+        <div class ="events index">
+            <% if @view_all %> 
+                <h1>Upcoming Events</h1>
+            <% else %>
+                <h1>Signed Up Events</h1>
+            <% end %>
+
+            <% if @logged_in %>
+                <% if @view_all %>
+                    <%= link_to('View My Events', {:action => 'switch_view'}, :class =>'btn btn-outline-primary') %>
+                <% else %>
+                    <%= link_to('View All Events', {:action => 'switch_view'}, :class =>'btn btn-outline-primary') %>
+                <% end %> 
+            <% end %>
+            <br/>
+
+            <%  @attending_events = Event.joins("INNER JOIN participations ON events.id = participations.event_id")
+                                        .where('participations.user_id' => @user[:id])
+                                        .where(Date: 1.day.ago..).order(:Date)
+                if @view_all
+                    @events = Event.where(Date: 1.day.ago..).order(:Date)
+                    @past_events = Event.where(Date: ..1.day.ago).order(:Date)
+                else
+                    @events = @attending_events
+                end %>
+
+
+            <div class="container">
+                <div class="row font-weight-bold bg-dark text-light rounded-top">
+                    <% if @logged_in %>
+                        <div class="col-sm"> <h3> Sign Up </h3> </div>
+                    <% end %>
+                    <div class="col-sm"> <h3> Name </h3> </div>
+                    <div class="col-sm "> <h3> Date </h3> </div>
+                    <div class="col-sm"> <h3> Location </h3> </div>
+                    <div class="col-sm"> <h3> Points </h3> </div>
+                    <div class="col-sm"> <h3> Type </h3> </div>
+                    <% if @officer %>
+                        <div class="col-sm"> <h3> Officer Actions </h3> </div>
+                    <% end %>
+                </div>
+
+                <% @events.each do |event| %>
+                    <div class="row border border-top-0">
+                        <% if @logged_in %>
+                            <div class="col-sm"> 
+                                <% if event.users.include? @user %>
+                                    <%= link_to('Cancel', events_unattend_path(id: event.id), data: {confirm: 'Are you sure you want to cancel your sign up for this event?' }, class:'btn btn-outline-dark')%>
+                                <% elsif event.Date > 1.day.since %>
+                                    <%= link_to('Sign Up', events_attend_path(id: event.id), data: {confirm: 'Are you sure you want to sign up for this event?' }, class:'btn btn-outline-dark')%>
+                                <% else %>
+                                    Sign Ups Closed
+                                <% end %>
+                            </div>
+                        <% end %>
+                        <div class="col-sm"> 
+                            <%= link_to(event.Name, {:action => 'show', :id => event.id}, :class => 'action show') %>
+                        </div>
+                        <div class="col-sm"> <%= event.Date.strftime("%D %H:%M") %> </div>
+                        <div class="col-sm"> <%= event.Location %> </div>
+                        <div class="col-sm"> <%= event.Points %> </div>
+                        <div class="col-sm"> <%= event.PointType %> </div>
+                        <% if @officer%>
+                            <div class="col-sm">
+                                <%= link_to("Edit", {:action => 'edit', :id => event.id}, :class =>'action edit')%>
+                                <%=link_to("Delete",delete_event_url(event), :class =>'action delete') %>
+                            </div>
+                        <% end %>
+                    </div>
+                <% end %>
+            </table>
+        </div>
+
+        <br>
+
+        <% if @view_all %>
+        <h1>Past Events</h1>
+            <div class="container">
+                <div class="row font-weight-bold bg-dark text-light rounded-top">
+                    <div class="col-sm"> <h3> Name </h3> </div>
+                    <div class="col-sm "> <h3> Date </h3> </div>
+                    <div class="col-sm"> <h3> Location </h3> </div>
+                    <div class="col-sm"> <h3> Points </h3> </div>
+                    <div class="col-sm"> <h3> Type </h3> </div>
+                    <% if @officer %>
+                        <div class="col-sm"> <h3> Officer Actions </h3> </div>
+                    <% end %>
+                </div>
+
+                <% @past_events.each do |event| %>
+                    <div class="row border border-top-0">
+                        <div class="col-sm">
+                            <%= link_to(event.Name, {:action => 'show', :id => event.id}, :class => 'action show') %>
+                        </div>
+                        <div class="col-sm"> <%= event.Date.strftime("%D %H:%M") %> </div>
+                        <div class="col-sm"> <%= event.Location %> </div>
+                        <div class="col-sm"> <%= event.Points %> </div>
+                        <% if @officer%>
+                            <div class="col-sm">
+                                <%= link_to("Edit", {:action => 'edit', :id => event.id}, :class =>'action edit')%>
+                                <%=link_to("Delete",delete_event_url(event), :class =>'action delete') %>
+                            </div>
+                        <% end %>
+                    </div>
+                <% end %>
+            </table>
+        </div>
+        <% end %>
+
+        <br>
+
+        <div class = "container center h5">
+            <p> Join us on social media! </p>
+            <a href="https://www.facebook.com/tamurotaract" class="btn btn-outline-dark"> Facebook </a>
+            <a href="https://www.instagram.com/aggierotaract" class="btn btn-outline-dark"> Instagram </a>
+            <a href="https://www.twitter.com/aggierotaract" class="btn btn-outline-dark"> Twitter </a>
+        </div>
+    </div>
+</body>

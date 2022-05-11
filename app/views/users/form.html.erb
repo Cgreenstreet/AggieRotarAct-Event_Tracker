@@ -1,0 +1,28 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Extra Information Form - Aggie Rotaract Event Tracker</title>
+</head>
+<body>
+    <h6 class="text-center"> You're logged in as <%=@user[:email]%> </h6>
+    
+    <h4 class="text-center"> The officers of Aggie Rotaract need your UIN and phone number. Please supply them below. </h4>
+
+    <br/>
+
+    <div class="container">
+        <%= form_for(@user, :url => form_url, :method => 'post') do |f| %>
+            <div class="row font-weight-bold"> UIN </div>
+            <div class="row"><%= f.text_field(:uin) %> </div>
+
+            <div class="row font-weight-bold"> Phone Number </div>
+            <div class="row"> <%= f.text_field(:phone) %> </div>
+            
+            <br/>
+            <div class="row">
+                <%= f.submit("Update info") %>
+            </div>
+        <% end %>
+    </div>
+</body>

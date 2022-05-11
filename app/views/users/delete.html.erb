@@ -1,0 +1,27 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Delete User - Aggie Rotaract Event Tracker</title>
+</head>
+
+<body>
+
+    <br/>
+    <div class="container">
+      <%= form_for(@user, :method => 'delete') do |f| %>
+        <h5 class="font-weight-bold"> 
+          Are you sure you want to permanently remove this user? <br/>
+          The user will have to sign up again to log back in to this site. 
+        </h5>
+        <h4 class="text-danger font-weight-bold"> <%= @user.first_name %> <%= @user.last_name %> </h4>
+
+        <br/>
+        <br/>
+        
+        <div class = "form-buttons">
+          <%= f.submit("Remove User") %>
+        </div>
+      <% end %>
+    </div>
+</body>

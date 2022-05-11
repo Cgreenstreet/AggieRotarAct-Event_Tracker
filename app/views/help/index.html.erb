@@ -1,0 +1,98 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Help - Aggie Rotaract Event Tracker</title>
+</head>
+
+<body>
+    <div class="text-center" style="margin: 1%;">
+        <a href="<%= events_path %>" class="btn btn-outline-primary"> Back to Events </a>
+        <br>
+        <br>
+        <% if not @logged_in %>
+            <h3> <%= google_sign_in_button "Sign in with my TAMU Google Account", proceed_to: login_url %> </h3>
+            <p> If you are an officer, please sign in to view more options and information. </p>
+        <% elsif @officer %>
+            <h4> Officer Actions </h4>
+            <h4>
+                <a href="<%= new_event_url %>" class="btn btn-outline-success"> Create Event </a>
+                <a href="<%= users_url %>" class="btn btn-outline-info"> User Dashboard </a>
+                <a href="<%= points_url %>" class="btn btn-outline-primary"> Add Points </a>
+            </h4>
+        <% end %>
+
+        <h2> Sign In </h2>
+            <p style="text-align: left">
+                Signing in is necessary to register for events and view your points. <br> <br>
+                Sign in using your TAMU Google Account. <br>
+                The first time you log in, you will be asked to fill out some information so the officers know who you are and can contact you if needed.
+                This information is only shared with officers and not other members. <br> <br>
+                Click on "Sign Out" to sign out when you are done. <br>
+            </p>
+        <h2> Events </h2>
+            <p style="text-align: left">
+                You can view all events or just the events you have signed up for.<br>
+                Click on "View All Events" or "View My Events" to switch between these two views. <br>
+                "View All Events" will show both upcoming events and past events.
+                Events that have occurred within the last 24 hours will be found in the upcoming events section. <br>
+                "View My Events" will show only upcoming events that you have signed up for. <br>
+                Click on the name of the event to see a more detailed description of that event. <br>
+            </p>
+        <h2> Signing Up for Events </h2>
+            <p style="text-align: left">
+                Signing up for an event will let other members know you are attending and allow officers to contact you if needed.
+                You can view other members that have signed up by clicking on the name of the event. <br> <br>
+                You need to be logged in to sign up for events. <br>
+                In the "View All Events" view, look under "Upcoming Events" to see events you can sign up for. <br>
+                Events that have sign ups open will have a "Sign Up" button displayed next to them.
+                You can click on the "Sign Up" button to sign up for that event. <br>
+                Events that you have already signed up for will have a "Cancel" button displayed next to them.
+                You can click on the "Cancel" button to cancel your sign up.
+                Events that you have already signed up for can also be found in the "View My Events" view. <br>
+                If no buttons are displayed, then sign ups are closed for that event.
+                Sign ups close 24 hours before an event starts. <br>
+            </p>
+        <h2> Profile </h2>
+            <p style="text-align: left">
+                Your profile is where you can view your contact info and your points. <br> <br>
+                Click on "My Profile" to view your profile. <br>
+                Click on "Edit Profile" to edit your profile. <br> <br>
+                The information in your profile is used for the officers to know who you are and contact you if needed.
+                This information is only shared with officers and not other users. <br>
+            </p>
+        <h2> Points </h2>
+            <p style="text-align: left">
+                To view your points, click on "My Profile". <br>
+                You can see your totals for each point type, as well as a log of each point entry and the event it came from. <br>
+            </p>
+
+        <% if @officer %>
+            <h2> Officers </h2>
+            <p style="text-align: left">
+                Officers have additional permissions such as viewing all members' information and managing events, users, and points. <br> <br>
+                New officers can be promoted and retiring officers can be demoted through the "User Dashboard" panel. <br>
+                Find the user you want to remove/grant officer permissions and click the "Edit" button.
+                Change the "Officer" field as desired. <br>
+            </p>
+            <h2> Managing Events </h2>
+            <p style="text-align: left">
+                Click on "Create Event" to create a new event. <br>
+                The name, date, points, and type fields are required. <br>
+                Typing a link into the description will automatically create a clickable hyperlink. <br>
+                Under the "Officer Actions" column in the table, you can also edit or delete a specific event. <br>
+            </p>
+            <h2> User Dashboard </h2>
+            <p style="text-align: left">
+                Click on "User Dashboard" to view and manage members and officers. <br>
+                You can view and edit information about each member and their points here.
+                You can also delete users to wipe all of their data. <br>
+            </p>
+            <h2> Entering Points </h2>
+            <p style="text-align: left">
+                Click on "Add Points" to create new point entries. <br>
+                All fields are required.
+                When you submit a new point entry, you will be redirected back to the same page to make it easy to make multiple entries. <br>
+            </p>
+        <% end %>
+    </div>

@@ -1,0 +1,30 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Add Points - Aggie Rotaract Event Tracker</title>
+</head>
+<body>
+
+    <div class="container">
+        <h5> <%= @msg %> </h5>
+        <br/>
+        <%= form_for(@point, :url => points_url, :method => 'post') do |f| %>
+            <div class="row font-weight-bold"> Point Amount </div>
+            <div class="row"><%= f.number_field(:number, min:0, step:0.5) %> </div>
+
+            <div class="row font-weight-bold"> Point Type </div>
+            <div class="row"> <%= f.select :point_type, ['Meeting','Event','Social', 'Other'] %> </div>
+
+            <div class="row font-weight-bold"> Event Name </div>
+            <div class="row"><%= f.text_field(:name) %> </div>
+
+            <div class="row font-weight-bold"> Member's UIN </div>
+            <div class="row"><%= f.text_field(:uin) %> </div>
+            <br/>
+            <input type="submit" name="commit" value="Add Points" class="btn btn-outline-success">
+            <a href="<%= users_path%>" class="btn btn-outline-primary"> Back to User Dashboard </a>
+            <a href="<%= events_url %>" class="btn btn-outline-primary"> Back to Events </a>
+        <% end %>
+    </div>
+</body>

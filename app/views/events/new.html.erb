@@ -1,0 +1,46 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Create Event - Aggie Rotaract Event Tracker</title>
+</head>
+<body>
+
+  <div class="container">
+    <h5> <%= @msg %> </h5>
+    <br/>
+    <h2>Create Event</h2>
+    <br/>
+
+    <%= form_for(@event, :url => events_path, :method => 'post') do |f| %>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Name</div>
+        <div class="col-sm"><%= f.text_field(:Name) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Date</div>
+          <div class="col-sm"> <%= f.datetime_select(:Date, order: [:month, :day, :year], datetime_separator: " at ")%> </div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Location</div>
+        <div class="col-sm"><%= f.text_field(:Location) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Points</div>
+        <div class="col-sm"><%= f.number_field(:Points, min:0, step:0.5, :value => @event.Points.nil?? 0 : @event.Points) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Type</div>
+        <div class="col-sm"> <%= f.select(:PointType, options_for_select(['Meeting', 'Event', 'Social', 'Other'], @event.PointType))%> </div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Description</div>
+        <div class="col-sm"><%= f.text_area :Description, :cols => "100", :rows => "10" %></div>
+      </div>
+
+      <input type="submit" name="commit" value="Create Event" class="btn btn-outline-success">
+      <a href="<%= events_path %>" class="btn btn-outline-primary"> Back to Events </a>
+    <% end %>
+  </div>
+</body>

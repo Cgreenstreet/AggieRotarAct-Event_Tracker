@@ -1,0 +1,51 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>User Dashboard - Aggie Rotaract Event Tracker</title>
+</head>
+
+<body>
+    <br/>
+    <h1 class="text-center"> Members of Aggie Rotaract </h1>
+
+    <br/>
+    <div class="container">
+        <div class="row bg-dark text-light rounded-top">
+            <div class="col-sm h4">Name </div>
+            <div class="col-sm h4"> UIN </div>
+            <div class="col-sm h4"> Email </div>
+            <div class="col-sm h4"> Phone </div>
+            <div class="col-sm h4"> Meeting Points </div>
+            <div class="col-sm h4"> Event Points </div>
+            <div class="col-sm h4"> Social Points </div>
+            <div class="col-sm h4"> Other Points </div>
+            <div class="col-sm h4"> Officer </div>
+            <div class="col-sm h4"> Actions </div>
+        </div>
+
+        <% @users.each do |user| %>
+            <div class="row border border border-top-0">
+                <div class="col-sm"><%= link_to("#{user.first_name} #{user.last_name}", {:action => 'show', :id => user.id}, :class => 'action show') %></div>
+                <div class="col-sm"><%= user.uin %></div>
+                <div class="col-sm"><%= user.email %></div>
+                <div class="col-sm"><%= user.phone %></div>
+                <div class="col-sm"><%= user.meeting_points %></div>
+                <div class="col-sm"><%= user.event_points %></div>
+                <div class="col-sm"><%= user.social_points %></div>
+                <div class="col-sm"><%= user.other_points %></div>
+                <div class="col-sm"><%= user.officer %></div>
+                <div class="col-sm">
+                    <%= link_to("Edit", {:action => 'edit', :id => user.id}, :class =>'action edit') %>
+                    <%= link_to("Delete",delete_user_path(user), :class =>'action delete') %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+
+    <br/>
+    <div class="text-center">
+        <a href="<%= events_path %>" class="btn btn-outline-primary"> Back to Events </a>
+        <a href="<%= points_url %>" class="btn btn-outline-primary"> Add Points </a>
+    </div>
+</body>

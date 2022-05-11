@@ -1,0 +1,53 @@
+<% form_name = @officer ? 'Edit User' : 'Update Info' %>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title><%=form_name%> - Aggie Rotaract Event Tracker</title>
+</head>
+<body>
+
+  <br/>
+  <div class="container">
+
+    
+    <br/>
+    <h2><%= form_name %></h2>
+
+    <br/>
+    <%= form_for(@user) do |f| %>
+
+      <div class="row">
+        <div class="col-sm font-weight-bold">First Name </div>
+        <div class="col-sm"><%= f.text_field(:first_name) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Last Name</div>
+        <div class="col-sm"><%= f.text_field(:last_name) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">UIN</div>
+        <div class="col-sm"><%= f.text_field(:uin) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">Phone</div>
+        <div class="col-sm"><%= f.text_field(:phone) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm font-weight-bold">E-Mail</div>
+        <div class="col-sm"><%= f.text_field(:email) %></div>
+      </div>
+      <% if @officer %>
+        <div class="row">
+          <div class="col-sm font-weight-bold"> Is Officer</div>
+          <div class="col-sm"> <%= f.select :officer, [false,true] %></div>
+        </div>
+      <% end %>
+
+       <input type="submit" name="commit" value="Edit User" class="btn btn-outline-success">
+      <a href="<%= users_path%>" class="btn btn-outline-primary"> Back to User Dashboard </a>
+
+    <% end %>
+  </div>
+</body>

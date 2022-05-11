@@ -1,0 +1,99 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title><%= "#{@user.first_name} #{@user.last_name} - Aggie Rotaract Event Tracker" %></title>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        padding: 5px;
+      }
+    </style>
+</head>
+<body>
+  <br/>
+
+    <div class="container border rounded">
+        <div class="row bg-dark text-light rounded-top">
+            <h1 class="col font-weight-bold text-center"> View User: <%= "#{@user.first_name} #{@user.last_name}" %> </h1>
+        </div>
+
+        <div class="row h3">
+            <div class="col">
+                <span class="font-weight-bold"> Name: </span>
+                <%= "#{@user.first_name} #{@user.last_name}" %>
+            </div>
+        </div>
+        <div class="row h3">
+            <div class="col">
+                <span class="font-weight-bold"> UIN: </span>
+                <%= @user.uin %>
+            </div>
+        </div>
+        <div class="row h3">
+            <div class="col">
+                <span class="font-weight-bold"> Email: </span>
+                <%= @user.email %>
+            </div>
+        </div>
+        <div class="row h3">
+            <div class="col">
+                <span class="font-weight-bold"> Phone Number: </span>
+                <%= @user.phone %>
+            </div>
+        </div>
+        <div class="row h3">
+            <div class="col">
+                <span class="font-weight-bold"> Officer: </span>
+                <%= @user.officer %>
+            </div>
+        </div>
+        <div class="row h3">
+            <div class="col">
+                <span class="font-weight-bold"> Meeting Points: </span>
+                <%= @user.meeting_points %>
+            </div>
+            <div class="col">
+                <span class="font-weight-bold"> Event Points: </span>
+                <%= @user.event_points %>
+            </div>
+            <div class="col">
+                <span class="font-weight-bold"> Social Points: </span>
+                <%= @user.social_points %>
+            </div>
+            <div class="col">
+                <span class="font-weight-bold"> Other Points: </span>
+                <%= @user.other_points %>
+            </div>
+        </div>
+        <h2> Point Log: </h2>
+        <div class="container">
+            <div class="row font-weight-bold bg-dark text-light rounded-top">
+                <div class="col-sm"> <h3> Event </h3> </div>
+                <div class="col-sm"> <h3> Amount </h3> </div>
+                <div class="col-sm"> <h3> Type </h3> </div>
+                <% if @user.officer %>
+                    <div class="col-sm "> <h3> Actions </h3> </div>
+                <% end %>
+            </div>
+
+            <% @points.each do |point| %>
+                <div class="row border border-top-0">
+                    <div class="col-sm"> <%= point.name %> </div>
+                    <div class="col-sm"> <%= point.number.to_f %> </div>
+                    <div class="col-sm"> <%= point.point_type %> </div>
+                    <% if User.officer?(cookies.signed[:user_id]) %>
+                        <div class="col-sm"> <%= link_to("Delete",delete_point_url(point), :class =>'action delete') %> </div>
+                    <% end %>
+                </div>
+            <% end %>
+    </div>
+
+    <div class="container">
+        <% if @user.officer %>
+            <a href="<%= users_path%>" class="btn btn-outline-primary"> Back to User Dashboard </a>
+        <% end %>
+        <a href="<%= events_path%>" class="btn btn-outline-success""> Back to Events </a>
+    </div>
+</body>

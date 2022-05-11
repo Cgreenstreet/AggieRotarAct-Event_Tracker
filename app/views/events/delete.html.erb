@@ -1,0 +1,20 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>Delete Event - Aggie Rotaract Event Tracker</title>
+</head>
+<body>
+  <div class="container">
+  <%= form_for(@event, :method => 'delete') do |f| %>
+      <p class="font-weight-bold"> Are you sure you want to permanently delete this event? </p>
+      <h4 class="text-danger font-weight-bold"> <%= @event.Name %> </h4>
+
+      <br/>
+      <br/>
+
+      <input type="submit" name="commit" value="Delete Event" class="btn btn-outline-danger">
+        <a href="<%= events_path %>" class="btn btn-outline-primary"> Back to Events </a>
+  <% end %>
+  </div>
+<body>
